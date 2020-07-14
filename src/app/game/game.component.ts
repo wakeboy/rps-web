@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SignalrClientService } from '../services/signalr-client.service';
+import { ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { GameModel } from '../models/game.model';
 
 @Component({
   selector: 'app-game',
@@ -19,13 +22,32 @@ export class GameComponent implements OnInit {
     'paper',
     'scissors'
   ];
+  gameId: string;
+  game: GameModel;
 
-  constructor(public signalrClientService: SignalrClientService){
-  }
+  constructor(public signalrClientService: SignalrClientService, private route: ActivatedRoute, private store: Store<any>){ }
   
-  ngOnInit(): void {
-    this.signalrClientService.startConnection();
-    this.signalrClientService.addPickListener();
+  async ngOnInit() {
+    this.gameId = this.route.snapshot.paramMap.get("gameId");
+
+    this.store.select('game').subscribe(g => {
+      this.game = g.game;
+      console.log(this.game);
+      // If its null we can get from the API
+
+
+      this.signalrClientService.startConnection()
+        .then(() => {
+          this.signalrClientService.addReceveMessageListener();
+          this.signalrClientService.joinGroup(this.game.id);
+          // this.signalrClientService.addPickListener();
+        });
+
+    });;
+  }
+
+  private getState(){
+    
   }
 
   userPick(userWeapon: string): void {

@@ -1,0 +1,16 @@
+<header>
+    <h1>Join a Game</h1>
+</header>
+<div class="container">
+    <p>
+        Enter your name to join your friends game
+    </p>
+    <form (ngSubmit)="joinGame()" #gameForm="ngForm">
+        <div class="form-group">
+            <label for="playerName">Player Name:</label>
+            <input class="form-control" name="playerName" id="playerName" type="text" 
+                    [(ngModel)]="joinGameModel.playerName" required>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!gameForm.form.valid">Create Game</button>
+    </form>
+</div>

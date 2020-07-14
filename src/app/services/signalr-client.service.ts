@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { environment } from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalrClientService {
   public data: any;
+  public gameNotification: any;
   private hubConnection: signalR.HubConnection;
 
   constructor() { }
 
-  public startConnection(): void {
+  public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:44339/gamehub")
+      .withUrl(environment.gameSignalRHubUrl)
       .build();
 
-    this.hubConnection
+    return this.hubConnection
         .start()
         .then(() => { 
           console.log("Connection started");
@@ -31,6 +33,16 @@ export class SignalrClientService {
     this.hubConnection.on('send', (msg) => {
       this.data = msg;
       console.log("SignalR Data: " + msg);
+    });
+  }
+
+  public joinGroup(gameId: string): void {
+    this.hubConnection.invoke("JoinGroup", gameId);
+  }
+
+  public addReceveMessageListener(): void {
+    this.hubConnection.on('ReceiveMessage', (msg) => {
+      this.gameNotification = msg;
     });
   }
 }
