@@ -13,6 +13,7 @@ import { setGame, setPlayerName } from '../state-management/game.actions';
 export class CreateGameComponent {
   createGameModel: CreateGameModel = new CreateGameModel();
   gameModel: GameModel;
+  errors: string[] = [];
 
   constructor(private http: GameHttpService, private store: Store<any>) { }
 
@@ -20,12 +21,30 @@ export class CreateGameComponent {
     this.http.createGame(this.createGameModel)
         .subscribe((data: GameModel) => {
           this.gameModel = data;
-          this.store.dispatch(setGame({game: this.gameModel, playerName: this.gameModel.player1Name}));
-          // this.store.dispatch(setPlayerName({ playerName: this.gameModel.player1Name}));
-        });
+          this.store.dispatch(setGame( {game: this.gameModel, playerName: this.createGameModel.playerName }));
+        }, 
+        error => this.errors.push(error));
+  }
+
+  closeErrorAlert(): void {
+    this.errors = [];
   }
 
   getInviteUrl(): string {
     return window.location.origin + '/join-game/' + this.gameModel.id;
+  }
+
+  copyInviteUrl(): void {
+    var tb = document.createElement('textarea');
+    tb.style.position ='fixed';
+    tb.style.left = '0';
+    tb.style.top = '0';
+    tb.style.opacity = '0';
+    tb.value = this.getInviteUrl();
+    document.body.appendChild(tb);
+    tb.focus();
+    tb.select();
+    document.execCommand('copy');
+    document.body.removeChild(tb);
   }
 }

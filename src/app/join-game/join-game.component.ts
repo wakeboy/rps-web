@@ -2,7 +2,7 @@ import { Component, OnInit, Query } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { GameHttpService } from '../services/game-http.service';
-import { GameModel } from '../models/game.model';
+import { GameModel, Game } from '../models/game.model';
 import { JoinGameModel } from '../models/join.game.model';
 import { setGame, setPlayerName } from '../state-management/game.actions';
 
@@ -14,7 +14,7 @@ import { setGame, setPlayerName } from '../state-management/game.actions';
 export class JoinGameComponent implements OnInit {
   gameId: string;
   joinGameModel: JoinGameModel = new JoinGameModel();
-  gameModel: GameModel;
+  game: GameModel;
 
   constructor(private http: GameHttpService,
      private route: ActivatedRoute, 
@@ -30,9 +30,8 @@ export class JoinGameComponent implements OnInit {
     console.log(this.joinGameModel);
     this.http.joinGame(this.joinGameModel)
         .subscribe((data: GameModel) => {
-          this.gameModel = data;
-          this.store.dispatch(setGame({game: this.gameModel, playerName: this.gameModel.player2Name}));
-
+          this.game = data;
+          this.store.dispatch(setGame({ game: this.game, playerName: this.joinGameModel.playerName }));
           this.router.navigate(['/game/', this.gameId]);
         });
   }

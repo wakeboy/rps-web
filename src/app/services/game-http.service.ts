@@ -26,6 +26,6 @@ export class GameHttpService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    return throwError('Something bad happened; please try again.');
+    return throwError('Something bad happened, please try again.');
   }
 }

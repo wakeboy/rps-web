@@ -1,14 +1,3 @@
-export class GameModel {
-   id: string;
-   player1Name: string;
-   player2Name: string;
-   player1Score: number;
-   player2Score: number; 
-   Player1Selection: Weapon;
-   Player2Selection: Weapon;
-   LastWinner: Winner;
-}
-
 export enum Winner {
    None = 1,
    Player1,
@@ -17,7 +6,36 @@ export enum Winner {
 }
 
 export enum Weapon {
-   Rock = 1,
+   None = 1,
+   Rock,
    Paper,
    Scissors
+}
+
+export interface Player {
+   name: string;
+   score: number;
+   selection: Weapon;
+   previousSelection: Weapon;
+}
+
+export class PlayerModel implements Player {
+   name: null;
+   score: 0;
+   selection: Weapon.None;
+   previousSelection: Weapon.None;
+}
+
+export interface Game {
+   id: string;
+   player1: Player;
+   player2: Player;
+   lastWinner: Winner;
+}
+
+export class GameModel implements Game {
+   id: null;
+   player1: Player = new PlayerModel();
+   player2: Player = new PlayerModel();
+   lastWinner: Winner.None;
 }

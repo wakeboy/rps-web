@@ -10,7 +10,7 @@ export interface AppState {
 
 export const initialState: AppState = {
     game: new GameModel(),
-    playerName: ''
+    playerName: null
 };
 
 const _gameReducer = createReducer(initialState,
