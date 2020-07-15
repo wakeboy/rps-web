@@ -1,27 +1,28 @@
 <header>
     <h1>Rock Paper Scissors</h1>
-    {{ signalrClientService.gameNotification }}
 </header>
+{{ signalrClientService.game | json }}
 <div class="container">
     <div class="score-board">
-        <div class="badge" id="user-label">user : {{userSelected}}</div>
-        <div class="badge" id="comp-label">comp : {{compSelected}}</div>
-        <span id="user-score">{{userScore}}</span>:<span id="comp-score">{{compScore}}</span>
+        <div class="badge" id="user-label">P1 : {{signalrClientService.game.player1Name}}</div>
+        <div class="badge" id="comp-label">P2 : {{signalrClientService.game.player2Name}}</div>
+        <span id="user-score">{{signalrClientService.game.player1Score}}</span>:<span id="comp-score">{{signalrClientService.game.player2Score}}</span>
     </div>
     
     <div class="result">
-        <p *ngIf="status">{{userSelected}} {{action}} {{compSelected}}{{status}}</p>
+        {{ signalrClientService.gameNotification }}
+        <p *ngIf="status">{{signalrClientService.game.Player1Selection}} vs {{signalrClientService.game.Player2Selection}}{{signalrClientService.game.LastWinner}}</p>
     </div>
     
     <div class="choices">
         <div class="choice" id="rock">
-        <img src="../assets/images/rock.png" (click)='userPick("rock")'>
+        <img src="../assets/images/rock.png" (click)='userPick(weapon.Rock)'>
         </div>
         <div class="choice" id="paper">
-        <img src="../assets/images/paper.png" (click)='userPick("paper")'>
+        <img src="../assets/images/paper.png" (click)='userPick(weapon.Paper)'>
         </div>
         <div class="choice" id="scissors">
-        <img src="../assets/images/scissors.png" (click)='userPick("scissors")'>
+        <img src="../assets/images/scissors.png" (click)='userPick(weapon.Scissors)'>
         </div>
     </div>
     

@@ -4,5 +4,20 @@ export class GameModel {
    player2Name: string;
    player1Score: number;
    player2Score: number; 
-   gameUrl: string;
+   Player1Selection: Weapon;
+   Player2Selection: Weapon;
+   LastWinner: Winner;
+}
+
+export enum Winner {
+   None = 1,
+   Player1,
+   Player2,
+   Draw
+}
+
+export enum Weapon {
+   Rock = 1,
+   Paper,
+   Scissors
 }

@@ -14,7 +14,6 @@ import { CreateGameComponent } from './create-game/create-game.component';
 import { HomeComponent } from './home/home.component';
 import { JoinGameComponent } from './join-game/join-game.component';
 import { gameReducer } from './state-management/game.reducer';
-import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,7 @@ import { environment } from 'src/environments/environment';
     NgbModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({ game: gameReducer })
+    StoreModule.forRoot({ game: gameReducer, playerName: gameReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
+import { Weapon, GameModel } from '../models/game.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalrClientService {
-  public data: any;
+  public game: GameModel = new GameModel();
   public gameNotification: any;
   private hubConnection: signalR.HubConnection;
 
@@ -25,14 +26,14 @@ export class SignalrClientService {
         .catch(error => console.log("Error while starting connection:" + error));
   }
 
-  public pick(weapon: string): void {
-    this.hubConnection.invoke("echo", weapon);
+  public pick(groupId: string, user: string, weapon: Weapon): void {
+    this.hubConnection.invoke("pick", groupId, user, weapon);
   }
 
   public addPickListener(): void {
-    this.hubConnection.on('send', (msg) => {
-      this.data = msg;
-      console.log("SignalR Data: " + msg);
+    this.hubConnection.on('RecieveGame', (game) => {
+      console.log(game);
+      this.game = game;
     });
   }
 

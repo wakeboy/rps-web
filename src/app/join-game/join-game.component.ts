@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { GameHttpService } from '../services/game-http.service';
 import { GameModel } from '../models/game.model';
 import { JoinGameModel } from '../models/join.game.model';
-import { setGame } from '../state-management/game.actions';
+import { setGame, setPlayerName } from '../state-management/game.actions';
 
 @Component({
   selector: 'app-join-game',
@@ -31,7 +31,7 @@ export class JoinGameComponent implements OnInit {
     this.http.joinGame(this.joinGameModel)
         .subscribe((data: GameModel) => {
           this.gameModel = data;
-          this.store.dispatch(setGame({game: this.gameModel}));
+          this.store.dispatch(setGame({game: this.gameModel, playerName: this.gameModel.player2Name}));
 
           this.router.navigate(['/game/', this.gameId]);
         });
