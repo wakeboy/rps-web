@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { GameHttpService } from '../services/game-http.service';
 import { GameModel, Game } from '../models/game.model';
 import { JoinGameModel } from '../models/join.game.model';
-import { setGame, setPlayerName } from '../state-management/game.actions';
+import { setGameAndPlayer } from '../state-management/game.actions';
 
 @Component({
   selector: 'app-join-game',
@@ -15,6 +15,7 @@ export class JoinGameComponent implements OnInit {
   gameId: string;
   joinGameModel: JoinGameModel = new JoinGameModel();
   game: GameModel;
+  errors: string[] = [];
 
   constructor(private http: GameHttpService,
      private route: ActivatedRoute, 
@@ -31,8 +32,15 @@ export class JoinGameComponent implements OnInit {
     this.http.joinGame(this.joinGameModel)
         .subscribe((data: GameModel) => {
           this.game = data;
-          this.store.dispatch(setGame({ game: this.game, playerName: this.joinGameModel.playerName }));
+          this.store.dispatch(setGameAndPlayer({ game: this.game, playerName: this.joinGameModel.playerName }));
           this.router.navigate(['/game/', this.gameId]);
+        },
+        error => {
+          this.errors = error;
         });
+  }
+
+  closeErrorAlert(): void {
+    this.errors = [];
   }
 }

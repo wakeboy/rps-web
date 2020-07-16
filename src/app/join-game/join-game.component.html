@@ -9,8 +9,11 @@
         <div class="form-group">
             <label for="playerName">Player Name:</label>
             <input class="form-control" name="playerName" id="playerName" type="text" 
-                    [(ngModel)]="joinGameModel.playerName" required>
+                    [(ngModel)]="joinGameModel.playerName" required maxlength="10">
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="!gameForm.form.valid">Create Game</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!gameForm.form.valid">Join</button>
     </form>
+    <div class="container mt-3">
+        <ngb-alert type="danger" *ngIf="errors.length > 0" (close)="closeErrorAlert()">{{ errors }}</ngb-alert>
+    </div>
 </div>

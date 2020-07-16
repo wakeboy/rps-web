@@ -1,9 +1,9 @@
 <header>
     <h1>Create a Game</h1>
 </header>
-<div class="container">
+<div class="container" *ngIf="!game || !game.id">
     <p>
-        Enter your name to create a New game, and share the link with a friend to start playing.
+        Enter your name to start a game then share the link with a friend to start playing.
     </p>
     <form (ngSubmit)="createGame()" #gameForm="ngForm">
         <div class="form-group">
@@ -13,18 +13,17 @@
         </div>
         <button type="submit" class="btn btn-primary" [disabled]="!gameForm.form.valid">Create Game</button>
     </form>
+    <div class="container mt-3">
+        <ngb-alert type="danger" *ngIf="errors.length > 0" (close)="closeErrorAlert()">{{ errors }}</ngb-alert>
+    </div>
 </div>
-<div class="container mt-3">
-    <ngb-alert type="danger" *ngIf="errors.length > 0" (close)="closeErrorAlert()">{{ errors }}</ngb-alert>
-</div>
-<div class="container mt-3">
-    <ul *ngIf="gameModel" class="list-group">
-        <li class="list-group-item">
-            <span>Copy link below and share with a friend</span><br/>
-            {{ getInviteUrl() }}<button (click)="copyInviteUrl()" class="btn btn-light" type="button" value="Copy">Copy Link</button>
-        </li>
-        <li class="list-group-item">
-            <a [routerLink]="['/game', gameModel.id]">Lets Play</a>
-        </li>
-    </ul>
+<div class="container" *ngIf="game && game.id">
+    <p>Copy link below and share with a friend, then click lets play.</p>
+    <div>
+        <button (click)="copyInviteUrl()" class="btn btn-dark" type="button" value="Copy">Copy Link</button>
+        <span class="ml-3">{{ getInviteUrl() }}</span>
+    </div>
+    <div class="continer mt-3">
+        <a class="btn btn-success btn-lg" [routerLink]="['/game', game.id]">Lets Play</a>
+    </div>
 </div>

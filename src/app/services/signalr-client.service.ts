@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { environment } from '../../environments/environment';
-import { Weapon, GameModel } from '../models/game.model';
+import { Weapon, GameModel, Game } from '../models/game.model';
+import { Subject } from 'rxjs';
+import { AppState } from '../state-management/game.reducer';
+import { Store } from '@ngrx/store';
+import { setGame } from '../state-management/game.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalrClientService {
-  public game: GameModel = new GameModel();
   public gameNotification: any;
   private hubConnection: signalR.HubConnection;
 
-  constructor() { }
+  constructor(private store: Store<AppState>) {
+    console.log(environment.gameSignalRHubUrl)
+   }
 
   public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -23,7 +28,8 @@ export class SignalrClientService {
         .then(() => { 
           console.log("Connection started");
         })
-        .catch(error => console.log("Error while starting connection:" + error));
+        .catch(error => console.log("Error while starting connection:" + error))
+        .finally(() => console.log("finally"));
   }
 
   public pick(groupId: string, user: string, weapon: Weapon): void {
@@ -31,14 +37,13 @@ export class SignalrClientService {
   }
 
   public addPickListener(): void {
-    this.hubConnection.on('RecieveGame', (game) => {
-      console.log(game);
-      this.game = game;
+    this.hubConnection.on('RecieveGame', (game: GameModel) => {
+      this.store.dispatch(setGame({ game: game}));
     });
   }
 
   public joinGroup(gameId: string): void {
-    this.hubConnection.invoke("JoinGroup", gameId);
+    this.hubConnection.invoke("joingroup", gameId).catch(err => console.error(err));
   }
 
   public addReceveMessageListener(): void {

@@ -1,35 +1,35 @@
 <header>
     <h1>Rock Paper Scissors</h1>
 </header>
-{{ signalrClientService.game | json }}
-<div class="container">
+<div class="container text-centre" *ngIf="!game || game.player1.name === '' || game.player1.name === ''">
+    <h2>Waiting for players to join</h2>
+</div>
+<div class="container" *ngIf="game && game.player1 && game.player2">
     <div class="score-board">
-        <div class="badge" id="user-label">P1 : <span *ngIf="signalrClientService.game.player1">{{ signalrClientService.game.player1.name }}</span></div>
-        <div class="badge" id="comp-label">P2 : <span *ngIf="signalrClientService.game.player2">{{ signalrClientService.game.player2.name }}</span></div>
-        <span id="user-score">{{signalrClientService.game.player1.score}}</span>:<span id="comp-score">{{signalrClientService.game.player2.score}}</span>
-    </div>
-    
-    <div class="result">
-        {{ signalrClientService.gameNotification }}
-        <p *ngIf="status">{{signalrClientService.game.player1.previousSelection}} vs {{signalrClientService.game.player2.previousSelection}}{{signalrClientService.game.lastWinner}}</p>
+        <div class="badge" id="user-label">P1 : <span>{{ game.player1.name }}</span></div>
+        <div class="badge" id="comp-label">P2 : <span>{{ game.player2.name }}</span></div>
+        <span id="user-score">{{game.player1.score}}</span>:<span id="comp-score">{{game.player2.score}}</span>
     </div>
 
-    <div *ngIf="signalrClientService.game.lastWinner !== weapon.None">
-        test
+    <div class="container" *ngIf="!ready">
+        Waiting for players to join!
     </div>
-    
+
+    <div class="result" *ngIf="game.lastWinner">
+        <p>{{winner[game.lastWinner]}} Wins! {{ weapon[game.player1.previousSelection] }} vs {{ weapon[game.player2.previousSelection] }}</p>
+    </div>
     <div class="choices">
-        <div class="choice" id="rock">
+        <div class="choice" [ngClass]="{'active': currentSelection === weapon.Rock}" id="rock">
             <img src="../assets/images/rock.png" (click)='userPick(weapon.Rock)'>
         </div>
-        <div class="choice" id="paper">
+        <div class="choice" [ngClass]="{'active': currentSelection === weapon.Paper}" id="paper">
             <img src="../assets/images/paper.png" (click)='userPick(weapon.Paper)'>
         </div>
-        <div class="choice" id="scissors">
+        <div [ngClass]="{'active': currentSelection === weapon.Scissors}" class="choice" id="scissors">
             <img src="../assets/images/scissors.png" (click)='userPick(weapon.Scissors)'>
         </div>
     </div>
     
     <p id="action-message" *ngIf="!status">You Can Make Your Move</p>
     <p id="action-message" *ngIf="status">Wait...</p>
-  </div>    
+</div> 

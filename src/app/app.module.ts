@@ -30,7 +30,7 @@ import { gameReducer } from './state-management/game.reducer';
     NgbModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({ game: gameReducer, playerName: gameReducer })
+    StoreModule.forRoot({ state: gameReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]

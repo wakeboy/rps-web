@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   gameApiUrl: "https://localhost:5001",
-  gameSignalRHubUrl: "https://localhost:5001/gamehub"
+  gameSignalRHubUrl: "https://localhost:5001/hub/gamehub"
 };
 
 /*

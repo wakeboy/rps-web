@@ -1,27 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { GameHttpService } from '../services/game-http.service'
 import { CreateGameModel } from '../models/create.game.model';
 import { GameModel } from '../models/game.model';
-import { setGame, setPlayerName } from '../state-management/game.actions';
+import { setGameAndPlayer } from '../state-management/game.actions';
+import { selectState, selectAppState } from '../state-management/game.selector';
+import { AppState } from '../state-management/game.reducer';
 
 @Component({
   selector: 'app-create-game',
   templateUrl: './create-game.component.html',
   styleUrls: ['./create-game.component.scss']
 })
-export class CreateGameComponent {
+export class CreateGameComponent implements OnInit {
   createGameModel: CreateGameModel = new CreateGameModel();
-  gameModel: GameModel;
+  game: GameModel = new GameModel();
   errors: string[] = [];
 
-  constructor(private http: GameHttpService, private store: Store<any>) { }
+  constructor(private http: GameHttpService, private store: Store<AppState>) { }
+
+  ngOnInit(): void {
+    this.store.pipe(select(selectAppState)).subscribe(state => {
+      this.game = state.game;
+    });  
+  }
 
   createGame(): void {
     this.http.createGame(this.createGameModel)
         .subscribe((data: GameModel) => {
-          this.gameModel = data;
-          this.store.dispatch(setGame( {game: this.gameModel, playerName: this.createGameModel.playerName }));
+          this.store.dispatch(setGameAndPlayer( {game: data, playerName: this.createGameModel.playerName }));
         }, 
         error => this.errors.push(error));
   }
@@ -31,7 +38,7 @@ export class CreateGameComponent {
   }
 
   getInviteUrl(): string {
-    return window.location.origin + '/join-game/' + this.gameModel.id;
+    return window.location.origin + '/join-game/' + this.game.id;
   }
 
   copyInviteUrl(): void {
