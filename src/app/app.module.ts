@@ -8,7 +8,6 @@ import { StoreModule }  from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { RulesComponent } from './rules/rules.component';
 import { GameComponent } from './game/game.component';
 import { CreateGameComponent } from './create-game/create-game.component';
 import { HomeComponent } from './home/home.component';
@@ -18,7 +17,6 @@ import { gameReducer } from './state-management/game.reducer';
 @NgModule({
   declarations: [
     AppComponent,
-    RulesComponent,
     GameComponent,
     CreateGameComponent,
     HomeComponent,

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { environment } from '../../environments/environment';
 import { Weapon, GameModel, Game } from '../models/game.model';
-import { Subject } from 'rxjs';
 import { AppState } from '../state-management/game.reducer';
 import { Store } from '@ngrx/store';
 import { setGame } from '../state-management/game.actions';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, from, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { CreateGameModel } from '../models/create.game.model';
-import { environment } from "./../../environments/environment"
+import { environment } from "./../../environments/environment";
 import { GameModel } from '../models/game.model';
 import { catchError }  from 'rxjs/operators';
 import { JoinGameModel } from '../models/join.game.model';

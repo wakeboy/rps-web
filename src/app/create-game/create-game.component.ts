@@ -4,7 +4,7 @@ import { GameHttpService } from '../services/game-http.service'
 import { CreateGameModel } from '../models/create.game.model';
 import { GameModel } from '../models/game.model';
 import { setGameAndPlayer } from '../state-management/game.actions';
-import { selectState, selectAppState } from '../state-management/game.selector';
+import { selectAppState } from '../state-management/game.selector';
 import { AppState } from '../state-management/game.reducer';
 
 @Component({
