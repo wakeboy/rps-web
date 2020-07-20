@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@master
@@ -34,10 +34,10 @@ jobs:
         repository: wakeboy/rps-web
         tags: latest
 
-    # - name: 'Deploy to Azure Web App'
-    #   uses: azure/webapps-deploy@v1
-    #   with:
-    #     app-name: 'rockpaperscissors-web'
-    #     slot-name: 'production'
-    #     publish-profile: ${{ secrets.AzureAppService_PublishProfile_8714eb914d06493fbb184a1ad3734758 }}
-    #     package: .
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v1
+      with:
+        app-name: 'rockpaperscissors-web'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8714eb914d06493fbb184a1ad3734758 }}
+        image: .
