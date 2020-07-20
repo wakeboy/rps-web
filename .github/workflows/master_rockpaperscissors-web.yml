@@ -31,7 +31,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: rps-web
+        repository: wakeboy/rps-web
         tags: latest
 
     # - name: 'Deploy to Azure Web App'
