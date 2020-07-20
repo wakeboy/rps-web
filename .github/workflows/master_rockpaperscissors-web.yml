@@ -35,9 +35,9 @@ jobs:
         tags: latest
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: 'rockpaperscissors-web'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_8714eb914d06493fbb184a1ad3734758 }}
-        image: wakeboy/rps-web:latest
+        images: https://hub.docker.com/wakeboy/rps-web:latest
