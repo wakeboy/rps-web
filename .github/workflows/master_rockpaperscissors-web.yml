@@ -26,10 +26,18 @@ jobs:
         npm run build-prod --if-present
 # npm run test --if-present
 
-    - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1
       with:
-        app-name: 'rockpaperscissors-web'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8714eb914d06493fbb184a1ad3734758 }}
-        package: .
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{secrets.DOCKER_PASSWORD }}
+        repository: wakeboy/rps-web
+        tags: latest
+
+    # - name: 'Deploy to Azure Web App'
+    #   uses: azure/webapps-deploy@v1
+    #   with:
+    #     app-name: 'rockpaperscissors-web'
+    #     slot-name: 'production'
+    #     publish-profile: ${{ secrets.AzureAppService_PublishProfile_8714eb914d06493fbb184a1ad3734758 }}
+    #     package: .
