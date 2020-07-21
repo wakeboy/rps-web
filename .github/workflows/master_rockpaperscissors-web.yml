@@ -40,4 +40,4 @@ jobs:
         app-name: 'rockpaperscissors-web'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_8714eb914d06493fbb184a1ad3734758 }}
-        images: https://hub.docker.com/wakeboy/rps-web:${{ github.sha }} 
+        images: wakeboy/rps-web:${{ github.sha }} 
