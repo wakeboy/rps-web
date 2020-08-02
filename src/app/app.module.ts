@@ -23,7 +23,7 @@ import { gameReducer } from './state-management/game.reducer';
     JoinGameComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
